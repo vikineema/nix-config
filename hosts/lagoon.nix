@@ -15,12 +15,13 @@
     #../software/system/biometrics.nix
     ../software/system/zfs-encryption.nix
     ../software/desktop-apps-unstable # qgis, keepasxc, vscode, uxplay
-    ../software/gis/qgis.nix
+    #../software/gis/qgis.nix
     #../software/gis/qgis-sourcebuild.nix
     #../software/system/podman.nix
     #../software/system/distrobox.nix
     ../software/system/virt.nix
     ../software/system/sanoid.nix
+    ../software/system/micromamba.nix
     ../users/vicky.nix
     ../users/tim.nix
   ];
