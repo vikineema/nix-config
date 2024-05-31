@@ -93,9 +93,11 @@
     #  };
     #};
 
+    # Disabled clamav due to high memory consumption
+    # about 1.7G on lagoon (16GB RAM)
     # enable antivirus clamav and
     # keep the signatures' database updated
-    services.clamav.daemon.enable = true;
-    services.clamav.updater.enable = true;
+    #services.clamav.daemon.enable = true;
+    #services.clamav.updater.enable = true;
   };
 }
