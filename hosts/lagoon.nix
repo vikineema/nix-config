@@ -19,6 +19,7 @@
     #../software/gis/qgis-sourcebuild.nix 
     #../software/system/podman.nix
     #../software/system/distrobox.nix
+    ../software/system/docker.nix
     ../software/system/virt.nix
     ../software/system/sanoid.nix
     ../users/vicky.nix
