@@ -1,4 +1,5 @@
-{ pkgs ? import <nixpkgs> {}}: {
+{ config, pkgs, ... }:
+{
   environment.systemPackages = with pkgs; [
     micromamba
   ];

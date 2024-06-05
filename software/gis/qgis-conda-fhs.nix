@@ -12,8 +12,8 @@ let
       set -e
 
       # Modify your shell variables to include the micromamba command
-      export MAMBA_ROOT_PREFIX=$HOME/micromamba
       eval "$(micromamba shell hook --shell=posix)"
+      export MAMBA_ROOT_PREFIX=~/micromamba
       
       # For some reason this requires micromamba to be installed system wide.
       # Set up conda-forge exclusively
