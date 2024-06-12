@@ -39,7 +39,7 @@
           pager = "bat";
         };
         push = {
-          default = "matching";
+          default = "simple";
         };
         pull = {
           rebase = false;
