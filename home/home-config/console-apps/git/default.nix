@@ -39,7 +39,8 @@
           pager = "bat";
         };
         push = {
-          default = "simple";
+          default = "current";
+          autoSetupRemote = true;
         };
         pull = {
           rebase = false;
