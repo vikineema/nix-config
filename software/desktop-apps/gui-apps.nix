@@ -47,6 +47,7 @@
     schemaspy # Generate annotated schema documentation of pg and other databases
     slack
     synfigstudio
+    teams # using in browser is slow 
     tdesktop
     thunderbirdPackages.thunderbird-115 # Email and calendar desktop app
     tmux # needed by byobu
