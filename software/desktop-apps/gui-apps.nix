@@ -34,6 +34,7 @@
     # TODO is to automate this with home manager....
     logseq
     marktext # nice markdown editor
+    meld # diff tool
     mpv # videa player
     nextcloud-client
     obs-studio
@@ -48,7 +49,8 @@
     slack
     synfigstudio
     tdesktop
-    thunderbirdPackages.thunderbird-115 # Email and calendar desktop app
+    # thunderbirdPackages.thunderbird-115 # Email and calendar desktop app # can't find it in menu
+    thunderbird # Email and calendar desktop app
     tmux # needed by byobu
     xournalpp
     zap #Java application for web penetration testing
