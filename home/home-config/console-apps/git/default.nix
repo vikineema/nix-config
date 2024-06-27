@@ -9,10 +9,10 @@
       # Optionally, you can specify the path to your GPG key here
       # gpgKey = "/path/to/your/gpg/key";
       extraConfig = {
-        branch.autoSetupRebase = "always";
+        branch.autoSetupRebase = "never";
         checkout.defaultRemote = "origin";
 
-        pull.ff = "only";
+        pull.ff = "true";
         submodule.recurse = "true";
 
         core = {editor = "vim";};
