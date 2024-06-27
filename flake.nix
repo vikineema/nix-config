@@ -2,9 +2,9 @@
   description = "Kartoza NixOS Flakes";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     unstable.url = "https://github.com/nixos/nixpkgs/tarball/nixpkgs-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    home-manager.url = "github:nix-community/home-manager/release-24.05";
     # See https://github.com/nix-community/nixos-generators?tab=readme-ov-file#using-in-a-flake
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
@@ -63,7 +63,7 @@
         (builtins.readFile ./users/public-keys/id_ed25519_tim.pub)
       ];
     };
-    # Import the make-host function
+    # Import the mkHost function
     make-host = import ./functions/make-host.nix {
       nixpkgs = nixpkgs;
       overlay-unstable = overlay-unstable;
@@ -88,123 +88,51 @@
     # nix run github:timlinux/nix-config
     # or
     # nix run github:timlinux/nix-config#default
+    #
+    # to include in a config do:
+    #
+    # {pkgs, ...}: {
+    #   nixpkgs.overlays = [(import ../../packages)];
+    #    environment.systemPackages = with pkgs; [
+    #      qgis-latest
+    #   ];
+    # }
     packages.x86_64-linux.default = pkgs.callPackage ./packages/utils {};
-    #
-    # Package to help you prepare for setting up a new machine.
-    #
-    # Run with
-    # nix run .#utils
-    # or
-    # nix run github:timlinux/nix-config#utils
-
-    packages.x86_64-linux.runme = pkgs.writeScriptBin "runme" ''
-      echo "Tim nix-config default package"
-    '';
-    #
-    # Package to provide a shell with QGIS Python for headless QGIS work.
-    #
-    # Run with
-    # nix shell .#qgis-python-shell
-    # or
-    # nix run github:timlinux/nix-config#qgis-python-shell
-
     packages.x86_64-linux.qgis-python-shell = pkgs.callPackage ./packages/qgis-python-shell {};
-    #
-    # Package format your disk with ZFS then set up your machine
-    #
-    # Run with
-    # nix run .#setup-zfs-machine
-    # or
-    # nix run github:timlinux/nix-config#setup-zfs-machine
     packages.x86_64-linux.setup-zfs-machine = pkgs.callPackage ./packages/setup-zfs-machine {};
-    #
-    # Package QGIS with Tim custom additions
-    #
-    # Run with
-    # nix run .#qgis
-    # or
-    # nix run github:timlinux/nix-config#qgis
-    # or install by doing
-    # nix profile install .#qgis
-    # and uninstall:
-    # nix profile uninstall .#qgis
-    #
     packages.x86_64-linux.qgis = pkgs.callPackage ./packages/qgis {};
-
-    #
-    # Package tilemaker latest version
-    #
-    # Run with
-    # nix run .#tilemaker
-    # or
-    # nix run github:timlinux/nix-config#tilemaker
-    # or install by doing
-    # nix profile install .#tilemaker
-    # and uninstall:
-    # nix profile uninstall .#tilemaker
-    #
     packages.x86_64-linux.tilemaker = pkgs.callPackage ./packages/tilemaker {};
-
-    #
-    # Package gverify latest version
-    #
-    # Run with
-    # nix run .#gverify
-    # or
-    # nix run github:timlinux/nix-config#gverify
-    # or install by doing
-    # nix profile install .#gverify
-    # and uninstall:
-    # nix profile uninstall .#gverify
-    #
     packages.x86_64-linux.gverify = pkgs.callPackage ./packages/gverify {};
-    #
-    # Package ITK4 (ITK 5 is too recent for otb 9)
-    #
-    # Run with
-    # nix run .#itk4
-    # or
-    # nix run github:timlinux/nix-config#itk4
-    # or install by doing
-    # nix profile install .#itk4
-    # and uninstall:
-    # nix profile uninstall .#itk4
-    #
     packages.x86_64-linux.itk4 = pkgs.callPackage ./packages/itk4 {};
-    #
-    # Package otb latest version
-    #
-    # Run with
-    # nix run .#otb
-    # or
-    # nix run github:timlinux/nix-config#otb
-    # or install by doing
-    # nix profile install .#otb
-    # and uninstall:
-    # nix profile uninstall .#otb
-    #
     packages.x86_64-linux.otb = pkgs.callPackage ./packages/otb {self = self;};
     packages.x86_64-linux.distrobox = pkgs.callPackage ./packages/distrobox {};
     packages.x86_64-linux.kartoza-plymouth = pkgs.callPackage ./packages/kartoza-plymouth {};
-    #packages.x86_64-linux.whitebox-tools = pkgs.callPackage ./packages/whitebox-tools {};
+    packages.x86_64-linux.kartoza-grub = pkgs.callPackage ./packages/kartoza-grub {};
+    packages.x86_64-linux.whitebox-tools = pkgs.callPackage ./packages/whitebox-tools {};
+    packages.x86_64-linux.dash-to-panel = pkgs.callPackage ./packages/dash-to-panel {};
+    packages.x86_64-linux.kartoza-cron = pkgs.callPackage ./packages/kartoza-cron {};
+    # Example of how to deploy a simple script
+    packages.x86_64-linux.runme = pkgs.writeScriptBin "runme" ''
+      echo "Tim nix-config default package"
+    '';
+    # Build our custom ISO
+    # nix build .#iso
+    # Test with
+    # qemu-system-x86_64 -enable-kvm -m 8096 -cdrom result/iso/nixos-*.iso
     packages.x86_64-linux.iso = nixos-generators.nixosGenerate {
-      system = "x86_64-linux";
+      inherit pkgs;
       modules = [
-        # you can include your own nixos configuration here, i.e.
-        #./hosts/iso-gnome.nix
+        ./installer-configuration.nix
+        ./software/system/kartoza-plymouth.nix
+        ./software/system/kartoza-grub.nix
+        ./software/system/ssh.nix
       ];
-      format = "vmware";
-
-      # optional arguments:
-      # explicit nixpkgs and lib:
-      # pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      # lib = nixpkgs.legacyPackages.x86_64-linux.lib;
-      # additional arguments to pass to modules:
-      # specialArgs = { myExtraArg = "foobar"; };
-
-      # you can also define your own custom formats
-      # customFormats = { "myFormat" = <myFormatModule>; ... };
-      # format = "myFormat";
+      format =
+        {
+          x86_64-linux = "install-iso";
+          aarch64-linux = "sd-aarch64-installer";
+        }
+        .${system};
     };
 
     ######################################################
@@ -242,9 +170,9 @@
       # Tim headless box
       valley = make-host "valley";
       # Vicky laptop
-      lagoon = make-host "lagoon";
+      plain = make-host "lagoon";
       # Marina laptop
-      plain = make-host "plain";
+      lagoon = make-host "plain";
       # Virtman manual testbed
       rock = make-host "rock";
       # Jeff - running plasma

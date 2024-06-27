@@ -29,7 +29,7 @@
     ../software/desktop-apps-unstable/uxplay-unstable.nix
     ../software/gis/qgis-sourcebuild.nix
     #../software/system/sound-noise-suppression-unstable.nix
-    ../software/gis/tilemaker-sourcebuild.nix
+    #../software/gis/tilemaker-sourcebuild.nix
     #../software/gis/whitebox-tools.nix
     ../software/gis/saga.nix
     # R&D Package for Wolfgang
@@ -39,6 +39,7 @@
     #../software/system/tty-font.nix
     ../software/system/tailscale.nix
     ../software/system/virt.nix
+    ../software/system/printing.nix
     ../software/system/sanoid.nix
     #../software/system/lima.nix
     ../users/tim.nix
@@ -69,7 +70,8 @@
   #};
   # Use DNS Proxy for DNS resolution
   #networking.nameservers = ["127.0.0.1"];
-  networking.nameservers = ["192.168.0.2"];
+  networking.nameservers = ["10.100.0.236"];
+  #networking.nameservers = ["192.168.0.2"];
   #networking.firewall.allowedTCPPorts = [53];
   #networking.firewall.allowedUDPPorts = [53];
   # For revolt
@@ -83,10 +85,10 @@
 
   # If you installed using my zfs installer script, you will have a /nix
   # too so uncomment this...
-  #fileSystems."/nix" = {
-  #  device = "NIXROOT/nix";
-  #  fsType = "zfs";
-  #};
+  fileSystems."/nix" = {
+    device = "NIXROOT/nix";
+    fsType = "zfs";
+  };
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/EA5C-D827";
@@ -97,11 +99,11 @@
     device = "NIXROOT/home";
     fsType = "zfs";
   };
-  # Special mount point 
+  # Special mount point
   # See https://github.com/atuinsh/atuin/issues/952#issuecomment-1802376251
   fileSystems."/home/timlinux/.local/share/atuin" = {
-    device = "NIXROOT/atuin";
-    fsType = "zfs";
+    device = "/dev/zvol/NIXROOT/atuin";
+    fsType = "ext4";
   };
   networking.hostName = "crest"; # Define your hostname.
   # See https://search.nixos.org/options?channel=unstable&show=networking.hostId&query=networking.hostId
@@ -111,7 +113,9 @@
   swapDevices = [];
 
   networking.extraHosts = ''
-    192.168.0.2 valley
+    10.100.0.236 valley
+    10.100.0.234 waterfall
+    192.168.0.2 valley-local
     192.168.0.1 router
     10.100.0.242 vicky
     100.100.0.237 dorah
