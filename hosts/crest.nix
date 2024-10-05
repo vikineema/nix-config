@@ -9,12 +9,15 @@
 
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    #../configuration/desktop-gnome-x11.nix
-    ../configuration/desktop-kde6.nix
+    ../configuration/desktop-gnome-x11.nix
+    #../configuration/desktop-kde6.nix
+    #../configuration/base.nix
+    #../software/desktop-environments/pantheon-desktop.nix
     ../configuration/desktop-apps.nix
     ../software/system/locale-pt-en.nix
     ../software/system/biometrics.nix
     ../software/system/zfs-encryption.nix
+    ../software/gis/qgis-stable.nix
     #../modules/unstable-apps.nix # qgis, keepasxc, vscode, uxplay
 
     # I do it this way so that we use hand compiled QGIS with
@@ -25,19 +28,19 @@
     # your pc.   If you prefer to use the upstream built binary,
     # you can comment out these next line and uncomment the
     # unstable-apps entry above.
-    ../software/gis/qgis-sourcebuild.nix
+    #../software/gis/qgis-sourcebuild.nix
     #../software/system/sound-noise-suppression-unstable.nix
     #../software/gis/tilemaker-sourcebuild.nix
-    ../software/gis/whitebox-tools.nix
-    ../software/gis/saga.nix
+    #../software/gis/whitebox-tools.nix
+    #../software/gis/saga.nix
     # R&D Package for Wolfgang
-    ../software/gis/gverify-sourcebuild.nix
+    #../software/gis/gverify-sourcebuild.nix
     #../software/system/docker.nix
     #../software/system/podman.nix
     #../software/system/distrobox.nix
     #../software/system/tty-font.nix
     ../software/system/tailscale.nix
-    ../software/system/virt.nix
+    #../software/system/virt.nix
     ../software/system/printing.nix
     ../software/system/sanoid.nix
     #../software/system/lima.nix

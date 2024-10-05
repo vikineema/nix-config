@@ -9,7 +9,7 @@
         with ps; [
           numpy
           requests
-          debugpy
+          #debugpy
           future
           matplotlib
           pandas
@@ -19,6 +19,7 @@
           pyqtgraph
           rasterio
           sqlalchemy
+          pyqtwebengine
         ];
     })
     grass
